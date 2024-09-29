@@ -22,13 +22,16 @@ An Integrated Toy Parser for PDF/DOC/EXECEL/PPTX.
 
 ### SDK
 
+Prepare the `configure.json` file, and run 
+
 ```python
 import doc_parser
 import base64
+your_pdf_file = '...'
 parser = doc_parser.SophonParser("configure.json")
 with open('test.pdf', 'rb') as f:
     pdf = base64.b64encode(f.read()).decode()
-    print(parser.parse(pdf))
+    print(parser.parse(your_pdf_file))
 ```
 
 Notive, we use VLM to parse the pdf. The API should follow the following style:
@@ -48,6 +51,11 @@ Notive, we use VLM to parse the pdf. The API should follow the following style:
                   }]}
 ```
 
+If you have different API, make sure:
+
+- input: In `utils.py`, modify `callvlm()` function accordingly.
+- output: In `doc_parser.py`, modify `content = response_data['choices'][0]['message']['content']` in `parse_pdf()` accordingly.
+  
 ### A Simple flask Server
 
 To use the server mode, you can use the following command:
@@ -108,11 +116,15 @@ x	s
 
 ### Requirements
 
+Python: 3.8+ (tested on 3.10.10)
+
 Pypi:
 
 ```sh
-python -m pip install requirements.txt
-python 
+git clone https://github.com/yfyang86/sophonParser-demo
+cd sophonParser-demo
+python -m pip install -r requirements.txt
+python -m pip install -e .
 ```
 
 Extra:
